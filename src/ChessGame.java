@@ -7,6 +7,9 @@
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+
 import javax.swing.*;
 public class ChessGame {
 	//The entirety of the chess game
@@ -17,6 +20,8 @@ public class ChessGame {
 	private JPanel panelBoardGame;
 	private JPanel panelInstructions;
 	private JPanel panelHighScore;
+	
+	private JLabel[][] cells = new JLabel[8][8];
  
 	//Runs the chess game
 	public static void main(String[] args) {
@@ -27,12 +32,29 @@ public class ChessGame {
 			e.printStackTrace();
 		}
 	}  // End of main method
- 
+	 
  
  //METHODS
 	// Switch to leader boards screen
-	public ChessGame(){
+	private Board b;
+	private BoardGUI bgui;
+	
+	public ChessGame() {
 		initialize();
+		
+		//This panel contains the chess game itself (Chess board, 2 buttons, 2 timers)
+		panelBoardGame = new JPanel();
+		frmChessGame.getContentPane().add(panelBoardGame);
+		
+		b = new Board(this);
+		bgui = new BoardGUI(this, panelBoardGame);
+		
+		bgui.update(b);
+	}
+	
+	public void updateBoard(int x, int y) {
+		b.update(x, y);
+		bgui.update(b);
 	}
  
 //The settings  and layout for each panel
@@ -112,31 +134,6 @@ public class ChessGame {
 		
 		btnExit.setBounds(279, 320, 139, 23);
 		panelTitleScreen.add(btnExit);
-
-
-   
-   //This panel contains the chess game itself (Chess board, 2 buttons, 2 timers)
-   panelBoardGame = new JPanel();
-   		panelBoardGame.setVisible(false);
-   		panelBoardGame.setBackground(Color.WHITE);
-		panelBoardGame.setPreferredSize(new Dimension(100, 100));
-		panelBoardGame.setLayout(null);
-		frmChessGame.getContentPane().add(panelBoardGame);
-			
-			//Chess Board Test
-			ImageIcon iconLogo = new ImageIcon("src/Chess/chessboard.png");
-			JLabel chessboard = new JLabel();
-			chessboard.setIcon(iconLogo);
-			chessboard.setBounds(1, 1, 512, 512);
-			panelBoardGame.add(chessboard);
-			
-		
-			//Pawn Test
-			ImageIcon iconLogo1 = new ImageIcon("src/Chess/black_pawn.png");
-			JLabel pawn = new JLabel();
-			pawn.setIcon(iconLogo1);
-			pawn.setBounds(400, 137, 64, 64);
-			panelBoardGame.add(pawn);
 			
    //This panel contains information on each piece (3 buttons)
    panelInstructions = new JPanel();
