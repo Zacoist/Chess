@@ -31,11 +31,14 @@ public class ChessGame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}  // End of main method
+	}//End of main method
 	 
  
  //METHODS
-	// Switch to leader boards screen
+	/* Instantiate Board and BoardGUI objects
+	 * Board does the logic of the chess game
+	 * BoardGui handles the interaction between the game and the user
+	 */
 	private Board b;
 	private BoardGUI bgui;
 	
@@ -59,94 +62,101 @@ public class ChessGame {
  
 //The settings  and layout for each panel
 	public void initialize(){
-		//Initialize frame (1)
+		//Instantiate icon image 
+		final String FAVICON  = "src/Chess/black_knight.png";
+		Image im = Toolkit.getDefaultToolkit().getImage(FAVICON);
+		//Initialize frame 
 		frmChessGame = new JFrame();
-		Image im = Toolkit.getDefaultToolkit().getImage("src/Chess/black_knight.png");
+		
+		frmChessGame.setTitle("Chess Game");
+		frmChessGame.setBounds(100, 100, 800, 550);
+		frmChessGame.setLocationRelativeTo(null);
+		frmChessGame.setIconImage(im);
+		frmChessGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frmChessGame.getContentPane().setLayout(new CardLayout(0, 0));
    
-			frmChessGame.setTitle("Chess Game");
-			frmChessGame.setBounds(100, 100, 800, 550);
-			frmChessGame.setLocationRelativeTo(null);
-			frmChessGame.setIconImage(im);
-			frmChessGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-			frmChessGame.getContentPane().setLayout(new CardLayout(0, 0));
-   
-		//Initialize panels (4)
-   
-		//This is the central hub where the user connects with other panels (4 buttons)
-		panelTitleScreen = new JPanel();
+		/*
+		 * Initialize panels (4)
+		 */
+		// This panel is the title screen and the central hub of which the user  may connect with other panels (4 buttons)
+			panelTitleScreen = new JPanel();
+			
 			panelTitleScreen.setBackground(Color.WHITE);
 			panelTitleScreen.setVisible(true);
 			panelTitleScreen.setPreferredSize(new Dimension(100, 100));
 			panelTitleScreen.setLayout(null);
 			frmChessGame.getContentPane().add(panelTitleScreen);
    
-		//Title
-		JLabel lblTitle = new JLabel("Classic Chess");
-			lblTitle.setFont(new Font("Centaur", Font.PLAIN, 36));
-			lblTitle.setBounds(155, 137, 431, 50);
-			panelTitleScreen.add(lblTitle);
+				//Title
+				JLabel lblTitle = new JLabel("Classic Chess");
+				lblTitle.setFont(new Font("Centaur", Font.PLAIN, 36));
+				lblTitle.setBounds(155, 137, 431, 50);
+				panelTitleScreen.add(lblTitle);
 	
-		//Play Game Button
-		JButton btnStartButton = new JButton("Start Game");
-		//btnStartButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
+				//Play Game Button
+				JButton btnStartButton = new JButton("Start Game");
+				//btnStartButton.setFont(new Font("Times New Roman", Font.BOLD, 14));
 		
-		btnStartButton.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switchPanel(panelTitleScreen, panelBoardGame);
-			}
-		});
+				btnStartButton.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						switchPanel(panelTitleScreen, panelBoardGame);
+					}
+				});
    
-		btnStartButton.setBounds(279, 219, 139, 23);
-		panelTitleScreen.add(btnStartButton);
+				btnStartButton.setBounds(279, 219, 139, 23);
+				panelTitleScreen.add(btnStartButton);
 		
-		//Instruction button
-		JButton btnToInstruction = new JButton("Instructions");
+				//Instruction button
+				JButton btnToInstruction = new JButton("Instructions");
 		
-		btnToInstruction.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switchPanel(panelTitleScreen, panelInstructions);
-			}
-		});
+				btnToInstruction.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						switchPanel(panelTitleScreen, panelInstructions);
+					}
+				});
 		
-	    btnToInstruction.setBounds(279, 253, 139, 23);
-	    panelTitleScreen.add(btnToInstruction);
+				btnToInstruction.setBounds(279, 253, 139, 23);
+				panelTitleScreen.add(btnToInstruction);
 	    
-		//LeaderBoard Button
-		JButton btnLeaderboard = new JButton("Leaderboard");
+				//LeaderBoard Button
+				JButton btnLeaderboard = new JButton("Leaderboard");
 		
-		btnLeaderboard.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				switchPanel(panelTitleScreen, panelHighScore);
-			}
-		});
+				btnLeaderboard.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						switchPanel(panelTitleScreen, panelHighScore);
+					}
+				});
 		
-		btnLeaderboard.setBounds(279, 287, 139, 23);
-		panelTitleScreen.add(btnLeaderboard);
+				btnLeaderboard.setBounds(279, 287, 139, 23);
+				panelTitleScreen.add(btnLeaderboard);
+				
+				//Exit Button
+				JButton btnExit = new JButton("Exit");
 		
-		//Exit Button
-		JButton btnExit = new JButton("Exit");
+				btnExit.addActionListener(new ActionListener() {
+					public void actionPerformed(ActionEvent e) {
+						System.exit(0);
+					}
+				});
 		
-		btnExit.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				System.exit(0);
-			}
-		});
-		
-		btnExit.setBounds(279, 320, 139, 23);
-		panelTitleScreen.add(btnExit);
+				btnExit.setBounds(279, 320, 139, 23);
+				panelTitleScreen.add(btnExit);
 			
-   //This panel contains information on each piece (3 buttons)
-   panelInstructions = new JPanel();
-   		panelInstructions.setVisible(false);
+				//This panel contains information on each piece (3 buttons)
+				panelInstructions = new JPanel();
+				
+				panelInstructions.setVisible(false);
    
-   //This panel contain the high scores from read from a text file (1 button, 2 text fields)
-   panelHighScore = new JPanel();
-   panelHighScore.setVisible(false);
-   
-  }
+				//This panel contain the high scores from read from a text file (1 button, 2 text fields)
+				panelHighScore = new JPanel();
+				
+				panelHighScore.setVisible(false);  
+  }//End of initialize()
+	
+	//This methods will allow buttons to swtich between panels
 	private void switchPanel(JPanel from, JPanel to) {
 		from.setVisible(false);
 		to.setVisible(true);
-	} 	//End of switchPanel()
+	} //End of switchPanel()
  
-}
+}//End of chess game class
