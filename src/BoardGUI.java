@@ -14,6 +14,7 @@ public class BoardGUI {
 	//Instantiate board image
 	final String BOARD_IMAGE = "src/Chess/chessboard.png";
 	
+	private int clickCount;
 	ChessGame game;
 	
 	//Initialize boardPanel and board
@@ -39,18 +40,6 @@ public class BoardGUI {
 		board = new JLabel(new ImageIcon(BOARD_IMAGE));
 		board.setBounds(0, 0, 512, 512);
 		
-		//If the user clicks any where on the board, the coordinates are given
-		board.addMouseListener(new MyMouseListener() {
-			@Override
-			public void mouseClicked(MouseEvent arg0) {
-				int y = arg0.getX() / 64;
-				int x = arg0.getY() / 64;
-				
-				game.updateBoard(x, y);
-			}
-		});
-		boardPanel.add(board);
-		
 		//2D array of cells (64) on the board
 		for (int i = 0; i < cells.length; i++) {
 			for (int j = 0; j < cells[i].length; j++) {
@@ -60,6 +49,12 @@ public class BoardGUI {
 				cells[j][i] = cell;
 			}
 		}
+		
+		//If the user clicks any where on the board, the coordinates are given
+		board.addMouseListener(new MyMouseListener());
+		boardPanel.add(board);
+		
+		
 	}//End of BoardGUI constructor
 	
 	//METHODS
@@ -72,11 +67,25 @@ public class BoardGUI {
 				//The piece at the following coordinates(i, j) is a...
 				//King
 				if (pieces[i][j] instanceof King) {
-					cells[i][j].setIcon(new ImageIcon("src/Chess/black_king.png"));
+					//White King
+					if (pieces[i][j].getColour() == 'w'){
+						cells[i][j].setIcon(new ImageIcon("src/Chess/white_king.png"));
+					}
+					//Black King
+					else if (pieces[i][j].getColour() == 'b'){
+						cells[i][j].setIcon(new ImageIcon("src/Chess/black_king.png"));
+					}
 				} 
+				else if (pieces[i][j] instanceof Pawn){
+					if (pieces[i][j].getColour() == 'w'){
+						cells[i][j].setIcon(new ImageIcon("src/Chess/white_pawn.png"));
+					} else if (pieces[i][j].getColour() == 'b'){
+						cells[i][j].setIcon(new ImageIcon("src/Chess/black_pawn.png"));
+					}
+				}
 				//Pawn
 				else {
-					cells[i][j].setIcon(new ImageIcon("src/Chess/white_pawn.png"));
+					cells[i][j].setIcon(null);
 				}
 			}
 		}
@@ -85,8 +94,12 @@ public class BoardGUI {
 	//Mouse logic
 	private class MyMouseListener implements MouseListener {
 		@Override
-		public void mouseClicked(MouseEvent arg0) {}
-
+		public void mouseClicked(MouseEvent arg0) {
+			int y = arg0.getX() / 64;
+			int x = arg0.getY() / 64;
+			game.updateBoard(x, y);
+		}
+		
 		@Override
 		public void mouseEntered(MouseEvent arg0) {}
 
@@ -100,4 +113,8 @@ public class BoardGUI {
 		public void mouseReleased(MouseEvent arg0) {}
 		
 	}//End of MyMouseListener()
+	
+	public int getClickCount(){
+		return clickCount;
+	}
 }//End of BoardGUI class
