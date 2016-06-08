@@ -23,6 +23,7 @@ public class BoardGUI {
 	
 	//Instantiate 2D array of cells
 	JLabel[][] cells = new JLabel[8][8];
+	JLabel[][] tiles = new JLabel [8][8];
 	
 	//CONSTRUCTOR
 	//Set up what the user will see on the board
@@ -50,11 +51,18 @@ public class BoardGUI {
 			}
 		}
 		
+		//2D array of tiles (64) to add outline and markers
+		for (int i = 0; i < tiles.length; i++) {
+			for (int j = 0; j < tiles[i].length; j++) {
+				JLabel tile = new JLabel();
+				tile.setBounds(i * 64, j * 64, 64, 64);					
+				cells[j][i].add(tile);
+				tiles[j][i] = tile;
+			}
+		}
 		//If the user clicks any where on the board, the coordinates are given
 		board.addMouseListener(new MyMouseListener());
 		boardPanel.add(board);
-		
-		
 	}//End of BoardGUI constructor
 	
 	//METHODS
@@ -82,6 +90,7 @@ public class BoardGUI {
 			int y = arg0.getX() / 64;
 			int x = arg0.getY() / 64;
 			game.updateBoard(x, y);
+			tiles[x][y].setIcon(new ImageIcon("src/Chess/outline.png"));
 		}
 		
 		@Override
@@ -104,4 +113,5 @@ public class BoardGUI {
 	
 	
 }//End of BoardGUI class
+
 
