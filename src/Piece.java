@@ -1,3 +1,4 @@
+import java.util.ArrayList;
 
 public abstract class Piece {
   private char colour;
@@ -16,5 +17,6 @@ public abstract class Piece {
   }
   
   public abstract String getName();
+  public abstract ArrayList<Pair> getLegalMoves(Pair p, Piece[][] b, int direction);
   public abstract void move();
 }

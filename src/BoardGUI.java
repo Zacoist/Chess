@@ -65,70 +65,11 @@ public class BoardGUI {
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
 				//The piece at the following coordinates(i, j) is a...
-				//King
-				if (pieces[i][j] instanceof King) {
-					//White King
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_king.png"));
-					}
-					//Black King
-					else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_king.png"));
-					}
-				} 
-				//Queens
-				else if (pieces[i][j] instanceof Queen){
-					//White Queen
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_queen.png"));
-					//Black Queen
-					} else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_queen.png"));
-					}
-				}
-				//Rooks
-				else if (pieces[i][j] instanceof Rook){
-					//White Rook
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_rook.png"));
-					//Black Rook
-					} else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_rook.png"));
-					}
-				}
-				//Knights
-				else if (pieces[i][j] instanceof Knight){
-					//White Knight
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_knight.png"));
-					//Black Knight
-					} else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_knight.png"));
-					}
-				}
-				//Bishops
-				else if (pieces[i][j] instanceof Bishop){
-					//White Bishop
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_bishop.png"));
-					//Black Bishop
-					} else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_bishop.png"));
-					}
-				}
-				//Pawns
-				else if (pieces[i][j] instanceof Pawn){
-					//White Pawn
-					if (pieces[i][j].getColour() == 'w'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/white_pawn.png"));
-					//Black Pawn
-					} else if (pieces[i][j].getColour() == 'b'){
-						cells[i][j].setIcon(new ImageIcon("src/Chess/black_pawn.png"));
-					}
-				}
-				//Empty
-				else {
+				if (pieces[i][j] == null) {
 					cells[i][j].setIcon(null);
+				} else {
+					cells[i][j].setIcon(new ImageIcon("src/Chess/" + ((pieces[i][j].getColour() == 'w') ? "white" : "black")
+							+ "_" + pieces[i][j].getName().toLowerCase() + ".png"));
 				}
 			}
 		}

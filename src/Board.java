@@ -3,10 +3,16 @@ import javax.swing.JPanel;
  * This is the logic behind the board and the game of chess
  */
 public class Board {
+	private enum State {
+		TURN_STATE, CLICKED_STATE
+	}
+	
 	private int clickCount = 0;
 	private int tempX;
 	private int tempY;
 	private String pieceID;
+	
+	private State currentState;
 	ChessGame game;
 	
 	//Instantiate 2D array of Pieces 
@@ -42,7 +48,7 @@ public class Board {
 		board[7][2] = new Bishop('w');
 		board[7][5] = new Bishop('w');
 		
-		//White
+		currentState = State.TURN_STATE;
 	}//End of Board()
 	
 	//METHODS
@@ -50,6 +56,34 @@ public class Board {
 	
 	//Where ever the user clicks, it becomes a king
 	public void update(int x, int y) {
+		System.out.printf("Clicked: (%d, %d)\n", x, y);
+		
+		if (currentState == State.TURN_STATE) {
+			if (board[x][y] == null) {
+				return;
+			}
+			
+			tempX = x;
+			tempY = y;
+			
+			if (board[x][y].getName().equals("Pawn")) {
+				System.out.println("LEGAL MOVES:");
+				int direction = ((board[x][y].getColour() == 'w') ? +1 : -1);
+				for (Pair p : board[x][y].getLegalMoves(new Pair(x, y), board, direction)) {
+					System.out.printf("(%d, %d)\n", p.x, p.y);
+				}
+			}
+			
+			currentState = State.CLICKED_STATE;
+		} else {
+			Piece temp = board[x][y];
+			board[x][y] = board[tempX][tempY];
+			board[tempX][tempY] = temp;
+			
+			currentState = State.TURN_STATE;
+		}
+		
+		/*
 		clickCount++;
 		System.out.println(clickCount);
 			if (clickCount == 1){
@@ -76,7 +110,7 @@ public class Board {
 			else if (board[x][y] == null && (clickCount == 1 || clickCount == 2)) {
 				clickCount = 0;
 				System.out.println("empty");
-			}
+			}*/
 				
 		/*if (board[x][y] == null) {
 			System.out.println("empty");
