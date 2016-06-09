@@ -11,14 +11,13 @@ import javax.swing.JPanel;
  * This is the board what the user will see and interact with
  */
 public class BoardGUI {
-	// Instantiate board image
+	// Instantiate board images
 	final String BOARD_IMAGE = "src/Chess/chessboard.png";
-	
 	final ImageIcon MARKED_ICON = new ImageIcon("src/Chess/marked.png");
 	final ImageIcon OUTLINE_ICON = new ImageIcon("src/Chess/outline.png");
 	final ImageIcon EMPTY_ICON = null;
 
-	private int clickCount;
+	// Initialize game
 	ChessGame game;
 
 	// Initialize boardPanel and board
@@ -28,7 +27,8 @@ public class BoardGUI {
 	// Instantiate 2D array of cells
 	JLabel[][] cells = new JLabel[8][8];
 	JLabel[][] tiles = new JLabel[8][8];
-	
+
+	// Initialize variables of where the user clicked
 	int clickedX;
 	int clickedY;
 
@@ -72,6 +72,7 @@ public class BoardGUI {
 		board.addMouseListener(new MyMouseListener());
 		boardPanel.add(board);
 	}// End of BoardGUI constructor
+		// END OF CONSTRUCTOR
 
 	// METHODS
 	// Update the GUI on the board
@@ -80,10 +81,11 @@ public class BoardGUI {
 		Piece[][] pieces = b.getBoard();
 		for (int i = 0; i < pieces.length; i++) {
 			for (int j = 0; j < pieces[i].length; j++) {
-				// The piece at the following coordinates(i, j) is a...
+				// If the following cell is empty, set its image to null
 				if (pieces[i][j] == null) {
 					cells[i][j].setIcon(EMPTY_ICON);
 				} else {
+					//Put the following cell with either a Black or White, King, Queen, Bishop, Rook, Knight and Pawn image
 					cells[i][j].setIcon(
 							new ImageIcon("src/Chess/" + ((pieces[i][j].getColour() == 'w') ? "white" : "black") + "_"
 									+ pieces[i][j].getName().toLowerCase() + ".png"));
@@ -91,7 +93,7 @@ public class BoardGUI {
 			}
 		}
 		
-		
+		//Boolean array to decide to whether or not to put a maker or a blank for the piece's possible move
 		boolean[][] legalCells = b.getLegalCells();
 		for (int i = 0; i < legalCells.length; i++) {
 			for (int j = 0; j < legalCells[i].length; j++) {
@@ -102,13 +104,13 @@ public class BoardGUI {
 				}
 			}
 		}
-		
+
 		if (b.getState() == Board.State.CLICKED_STATE) {
 			tiles[clickedX][clickedY].setIcon(OUTLINE_ICON);
 		} else {
 			tiles[clickedX][clickedY].setIcon(EMPTY_ICON);
 		}
-		
+
 	}// End of updating the GUI
 
 	// Mouse logic
@@ -118,8 +120,6 @@ public class BoardGUI {
 			clickedX = arg0.getY() / 64;
 			clickedY = arg0.getX() / 64;
 			game.updateBoard(clickedX, clickedY);
-			// tiles[x][y].setIcon(new ImageIcon("src/Chess/outline.png" ==
-			// board.getState() ?));
 		}
 
 		@Override
@@ -139,9 +139,4 @@ public class BoardGUI {
 		}
 
 	}// End of MyMouseListener()
-
-	public int getClickCount() {
-		return clickCount;
-	}
-
 }// End of BoardGUI class
