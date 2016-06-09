@@ -1,8 +1,12 @@
 import java.util.ArrayList;
 
 public class Queen extends Piece {
-	public Queen(char colour){
-		super(colour);
+	public Queen(char colour, Pair p) {
+		super(colour, p);
+	}
+
+	public Queen(char colour, int x, int y) {
+		super(colour, x, y);
 	}
 
 	@Override
@@ -13,32 +17,54 @@ public class Queen extends Piece {
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	public ArrayList<Pair> getLegalMoves(Pair p, Piece[][] b, int direction) {
+
+	private void helper(ArrayList<Pair> moves, Piece p, Board b, int x, int y, int x_inc, int y_inc) {
+		while (b.isWithinBounds(x, y)) {
+			if (!b.isCellEmpty(x, y)) {
+				if (b.isCapturable(p, x, y)) {
+					moves.add(new Pair(x, y));
+				}
+
+				break;
+			} else {
+				moves.add(new Pair(x, y));
+			}
+
+			x += x_inc * p.getDirection();
+			y += y_inc * p.getDirection();
+		}
+
+	}
+
+	public ArrayList<Pair> getLegalMoves(Piece p, Board b) {
 		ArrayList<Pair> legalMoves = new ArrayList<>();
-		//Moving forward
-		if (0 <= p.x - direction && p.x - direction < 8) {
-			//Calculate the top part
-			for(int t = 0; t < (8 - (p.y + 1)); t++){
-				legalMoves.add(new Pair(p.x - t, p.y));
-			}
-			//Calculate the bottom part
-			for(int t = 0; t < (p.y); t++){
-				legalMoves.add(new Pair(p.x + t, p.y));
-			}
-		}
-		//Moving diagonally (Right)
-		if (0 <= p.x - direction && p.x - direction < 8 && 0 <= p.y + direction && p.y + direction < 8) {
-			
-		}
-		//Moving diagonally (Left)
-		if (0 <= p.x - direction && p.x - direction < 8 && 0 <= p.y - direction && p.y - direction < 8) {
-			//for (int t = 0; t < 8; t++){
-			//	legalMoves.add(new Pair(p.x - t * direction, p.y - t * direction));
-			//}
-		}
-		
+
+		// Moving forwards
+		helper(legalMoves, p, b, p.getX() + p.getDirection(), p.getY(), +1, 0);
+
+		// Moving forwards
+		helper(legalMoves, p, b, p.getX() - p.getDirection(), p.getY(), -1, 0);
+
+		// Moving right
+		helper(legalMoves, p, b, p.getX(), p.getY() + p.getDirection(), 0, +1);
+
+		// Moving right
+		helper(legalMoves, p, b, p.getX(), p.getY() - p.getDirection(), 0, -1);
+
+		// Moving north-east
+		helper(legalMoves, p, b, p.getX() - p.getDirection(), p.getY() + p.getDirection(), -1, +1);
+
+		// Moving south-east
+		helper(legalMoves, p, b, p.getX() + p.getDirection(), p.getY() + p.getDirection(), +1, +1);
+
+		// Moving north-west
+		helper(legalMoves, p, b, p.getX() - p.getDirection(), p.getY() - p.getDirection(), -1, -1);
+
+		// Moving south-west
+		helper(legalMoves, p, b, p.getX() + p.getDirection(), p.getY() - p.getDirection(), +1, -1);
+
 		return legalMoves;
 	}
 }

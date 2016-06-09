@@ -1,8 +1,18 @@
 import java.util.ArrayList;
 
 public class Pawn extends Piece {
-	public Pawn(char colour){
-		super(colour);
+	boolean startState;
+
+	public Pawn(char colour, Pair p) {
+		super(colour, p);
+
+		startState = true;
+	}
+
+	public Pawn(char colour, int x, int y) {
+		super(colour, x, y);
+
+		startState = true;
 	}
 
 	@Override
@@ -13,22 +23,32 @@ public class Pawn extends Piece {
 	@Override
 	public void move() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
-	public ArrayList<Pair> getLegalMoves(Pair p, Piece[][] b, int direction) {
+	public ArrayList<Pair> getLegalMoves(Piece p, Board b) {
 		ArrayList<Pair> legalMoves = new ArrayList<>();
-		if (0 <= p.x - direction && p.x - direction < 8) {
-			legalMoves.add(new Pair(p.x - direction, p.y));
+		int tempX, tempY;
+
+		tempX = p.getX() + p.getDirection();
+		tempY = p.getY();
+		if (b.isWithinBounds(tempX, tempY) && (b.isCellEmpty(tempX, tempY))) {
+			legalMoves.add(new Pair(tempX, tempY));
 		}
-		if (0 <= p.x - direction && p.x - direction < 8 && 0 <= p.y + direction && p.y + direction < 8) {
-			legalMoves.add(new Pair(p.x - direction, p.y + direction));
+
+		tempX = p.getX() + p.getDirection();
+		tempY = p.getY() + p.getDirection();
+		if (b.isWithinBounds(tempX, tempY) && b.isCapturable(p, tempX, tempY)) {
+			legalMoves.add(new Pair(tempX, tempY));
 		}
-		if (0 <= p.x - direction && p.x - direction < 8 && 0 <= p.y - direction && p.y - direction < 8) {
-			legalMoves.add(new Pair(p.x - direction, p.y - direction));
+
+		tempX = p.getX() + p.getDirection();
+		tempY = p.getY() - p.getDirection();
+		if (b.isWithinBounds(tempX, tempY) && b.isCapturable(p, tempX, tempY)) {
+			legalMoves.add(new Pair(tempX, tempY));
 		}
-		
+
 		return legalMoves;
 	}
 }
