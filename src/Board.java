@@ -6,15 +6,16 @@ import javax.swing.JPanel;
  * This is the logic behind the board and the game of chess
  */
 public class Board {
+	// Initialize states within the game
 	public enum State {
 		TURN_STATE, CLICKED_STATE
 	}
 
+	// Initialize and instantiate variables
 	private int clickCount = 0;
 	private int tempX;
 	private int tempY;
 	private String pieceID;
-
 	private State currentState;
 	ChessGame game;
 
@@ -23,8 +24,10 @@ public class Board {
 	private boolean[][] legalMoves = new boolean[8][8];
 
 	// CONSTRUCTOR
-	// This will initialize the board with the following pieces and their
-	// coordinates.
+	/*
+	 * This will initialize the board with the following pieces with their
+	 * respected colour and coordinates.
+	 */
 	public Board(ChessGame game) {
 		this.game = game;
 
@@ -32,7 +35,6 @@ public class Board {
 		for (int i = 0; i < 8; i++) {
 			board[1][i] = new Pawn('b', 1, i);
 			board[6][i] = new Pawn('w', 6, i);
-
 		}
 		// Black
 		board[0][0] = new Rook('b', 0, 0);
@@ -56,69 +58,72 @@ public class Board {
 
 		currentState = State.TURN_STATE;
 	}// End of Board()
+		// END OF CONSTRUCTOR
 
 	// METHODS
-
-	public boolean isWithinBounds(int x, int y) {
-		return (0 <= x && x <= 7 && 0 <= y && y <= 7);
-	}
-
-	public boolean isCellEmpty(int x, int y) {
-		return (board[x][y] == null);
-	}
-
-	public boolean isCapturable(Piece p, int x, int y) {
-		if (isCellEmpty(x, y)) {
-			return false;
-		}
-
-		return (p.getColour() != board[x][y].getColour());
-	}
-
-	// Where ever the user clicks, it becomes a king
+	// Where the user clicks,it switches between Click_state and Turn_State
 	public void update(int x, int y) {
 		System.out.println(currentState.name());
+		// Checks if the user click on an empty cell
 		if (board[x][y] == null) {
 			System.out.println("Clicked empty cell");
 		} else {
+			// If the user has not clicked on an empty cell, return the piece's
+			// name and coordinates
 			System.out.printf("Clicked: %s at (%d, %d)\n", board[x][y].getName(), board[x][y].getX(),
 					board[x][y].getY());
 		}
-
+		// Properties and rules of Turn_state
 		if (currentState == State.TURN_STATE) {
+			// If the user click's an empty cell, continue to be in Turn_state
 			if (board[x][y] == null) {
 				return;
 			}
-
+			// Store and save the move of the user
 			tempX = x;
 			tempY = y;
-
+			// Prints out all legal moves of that piece to console
 			System.out.println("LEGAL MOVES:");
 			for (Pair p : board[x][y].getLegalMoves(board[x][y], this)) {
 				legalMoves[p.x][p.y] = true;
 			}
-
-			/*
-			 * if (board[x][y].getName().equals("Pawn")) {
-			 * 
-			 * } } if (board[x][y].getName().equals("Queen")) {
-			 * System.out.println("LEGAL MOVES:"); int direction =
-			 * ((board[x][y].getColour() == 'w') ? +1 : -1); for (Pair p :
-			 * board[x][y].getLegalMoves(new Pair(x, y), board, direction)) {
-			 * System.out.printf("(%d, %d)\n", p.x, p.y); } }
-			 */
+			// Change state
 			currentState = State.CLICKED_STATE;
 		} else {
+			// Properties and rules of Clicked_state
 			if (x != tempX || y != tempY) {
 				movePiece(board[tempX][tempY], x, y);
 			}
-
+			// Instantiate boolean array to change images
 			legalMoves = new boolean[8][8];
+			// Change state
 			currentState = State.TURN_STATE;
 		}
 		System.out.println(currentState.name());
 	}// End of updating the logic method
 
+	// Checks if the next move is on the board
+	public boolean isWithinBounds(int x, int y) {
+		return (0 <= x && x <= 7 && 0 <= y && y <= 7);
+	}
+
+	// Checks if the next move is on the board is on an empty cell
+	public boolean isCellEmpty(int x, int y) {
+		return (board[x][y] == null);
+	}
+
+	// Checks if the next has a piece on it
+	public boolean isCapturable(Piece p, int x, int y) {
+		// Checks if its empty or not
+		if (isCellEmpty(x, y)) {
+			return false;
+		}
+		// If the next move has a piece on it that of the same colour, you can
+		// not capture it
+		return (p.getColour() != board[x][y].getColour());
+	}
+
+	// Move the piece on the board
 	private void movePiece(Piece p, int x, int y) {
 		int oldX = p.getX();
 		int oldY = p.getY();
@@ -131,6 +136,7 @@ public class Board {
 		board[oldX][oldY] = null;
 	}
 
+	// Returns the state of the game
 	public State getState() {
 		return currentState;
 	}
@@ -140,6 +146,7 @@ public class Board {
 		return board;
 	}// End of getBoard()
 
+	// Returns which moves are legal on the board
 	public boolean[][] getLegalCells() {
 		return legalMoves;
 	}// End of getLegalCells()
