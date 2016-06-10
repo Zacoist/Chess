@@ -1,9 +1,10 @@
-/** This is the GUI of the chess game.
- *  @author Zachary Tan 
- *  @version 6/13/2016
+
+/** 
+ *  The ChessGame class runs the game. Properties and settings for all JPanels, JFrame, JLabels and JButtons are set here except for things in the Board panel.
+ *	@author Zacoist
+ *	@version 6/9/2016
  */
 
-//Imports
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,13 +17,15 @@ public class ChessGame {
 	// The entirety of the chess game
 	private JFrame frmChessGame;
 
-	// The panels
+	// Initialize JPanels
 	private JPanel panelTitleScreen;
 	private JPanel panelBoardGame;
 	private JPanel panelInstructions;
 	private JPanel panelHighScore;
 
-	private JLabel[][] cells = new JLabel[8][8];
+	// Initialize Board and BoardGUI objects
+	private Board b;
+	private BoardGUI bgui;
 
 	// Runs the chess game
 	public static void main(String[] args) {
@@ -32,16 +35,11 @@ public class ChessGame {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}// End of main method
+	}// End of main()
 
-	// METHODS
-	/*
-	 * Instantiate Board and BoardGUI objects Board does the logic of the chess
-	 * game BoardGui handles the interaction between the game and the user
-	 */
-	private Board b;
-	private BoardGUI bgui;
-
+	/* CONSTRUCTOR */
+	// Instantiate Board and BoardGUI objects Board does the logic of the chess
+	// game BoardGui handles the interaction between the game and the user
 	public ChessGame() {
 		initialize();
 
@@ -54,38 +52,46 @@ public class ChessGame {
 		bgui = new BoardGUI(this, panelBoardGame);
 
 		bgui.update(b);
-	}
+	}// End of ChessGame()
+	/* END OF CONSTRUCTOR */
+	/* METHODS */
 
+	// Updates the GUI and the logic of the board
 	public void updateBoard(int x, int y) {
 		b.update(x, y);
 		bgui.update(b);
-	}
+	}// End of updateBoard()
 
 	// The settings and layout for each panel
 	public void initialize() {
 		// Instantiate icon image
 		final String FAVICON = "src/Chess/black_knight.png";
 		Image im = Toolkit.getDefaultToolkit().getImage(FAVICON);
+
 		// Initialize frame
 		frmChessGame = new JFrame();
 
+		// Frame Settings
 		frmChessGame.setTitle("Chess Game");
-		frmChessGame.setBounds(100, 100, 800, 550);
+		frmChessGame.setSize(600, 600);
 		frmChessGame.setLocationRelativeTo(null);
+		frmChessGame.setResizable(true);
 		frmChessGame.setIconImage(im);
+		frmChessGame.setResizable(false);
 		frmChessGame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frmChessGame.getContentPane().setLayout(new CardLayout(0, 0));
 
 		/*
 		 * Initialize panels (4)
 		 */
+
 		// This panel is the title screen and the central hub of which the user
 		// may connect with other panels (4 buttons)
 		panelTitleScreen = new JPanel();
-
+		
 		panelTitleScreen.setBackground(Color.WHITE);
 		panelTitleScreen.setVisible(true);
-		panelTitleScreen.setPreferredSize(new Dimension(100, 100));
+		panelTitleScreen.setPreferredSize(new Dimension(640, 480));
 		panelTitleScreen.setLayout(null);
 		frmChessGame.getContentPane().add(panelTitleScreen);
 
@@ -152,11 +158,10 @@ public class ChessGame {
 		// This panel contain the high scores from read from a text file (1
 		// button, 2 text fields)
 		panelHighScore = new JPanel();
-
 		panelHighScore.setVisible(false);
 	}// End of initialize()
 
-	// This methods will allow buttons to swtich between panels
+	// This methods will allow buttons to switch between panels
 	private void switchPanel(JPanel from, JPanel to) {
 		from.setVisible(false);
 		to.setVisible(true);

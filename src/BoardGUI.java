@@ -1,3 +1,10 @@
+
+/** 
+ *  The BoardGUI class handles and process the interaction between the game and the user.  This class select and sets images on the board.
+ *	@author Zacoist
+ *	@version 6/9/2016
+ */
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.MouseEvent;
@@ -7,24 +14,23 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
-/*
- * This is the board what the user will see and interact with
- */
 public class BoardGUI {
 	// Instantiate board images
 	final String BOARD_IMAGE = "src/Chess/chessboard.png";
 	final ImageIcon MARKED_ICON = new ImageIcon("src/Chess/marked.png");
 	final ImageIcon OUTLINE_ICON = new ImageIcon("src/Chess/outline.png");
+	final ImageIcon CLICKED_ICON = new ImageIcon("src/Chess/clicked.png");
 	final ImageIcon EMPTY_ICON = null;
 
-	// Initialize game
+	// Initialize game object
 	ChessGame game;
 
 	// Initialize boardPanel and board
 	JPanel boardPanel;
 	JLabel board;
 
-	// Instantiate 2D array of cells
+	// Instantiate 2D array of cells (for pieces icon) & tiles (for outline and
+	// markers)
 	JLabel[][] cells = new JLabel[8][8];
 	JLabel[][] tiles = new JLabel[8][8];
 
@@ -32,7 +38,7 @@ public class BoardGUI {
 	int clickedX;
 	int clickedY;
 
-	// CONSTRUCTOR
+	/* CONSTRUCTOR */
 	// Set up what the user will see on the board
 	public BoardGUI(ChessGame game, JPanel boardPanel) {
 		this.game = game;
@@ -72,9 +78,9 @@ public class BoardGUI {
 		board.addMouseListener(new MyMouseListener());
 		boardPanel.add(board);
 	}// End of BoardGUI constructor
-		// END OF CONSTRUCTOR
+	/* END OF CONSTRUCTOR */
 
-	// METHODS
+	/* METHODS */
 	// Update the GUI on the board
 	public void update(Board b) {
 		// 2D array of pieces on every cell
@@ -85,7 +91,8 @@ public class BoardGUI {
 				if (pieces[i][j] == null) {
 					cells[i][j].setIcon(EMPTY_ICON);
 				} else {
-					//Put the following cell with either a Black or White, King, Queen, Bishop, Rook, Knight and Pawn image
+					// Put the following cell with either a Black or White,
+					// King, Queen, Bishop, Rook, Knight and Pawn image
 					cells[i][j].setIcon(
 							new ImageIcon("src/Chess/" + ((pieces[i][j].getColour() == 'w') ? "white" : "black") + "_"
 									+ pieces[i][j].getName().toLowerCase() + ".png"));
@@ -93,10 +100,13 @@ public class BoardGUI {
 			}
 		}
 		
-		//Boolean array to decide to whether or not to put a maker or a blank for the piece's possible move
+		
+		// Boolean array to decide to whether or not to put a maker or a blank
+		// for the piece's possible move
 		boolean[][] legalCells = b.getLegalCells();
 		for (int i = 0; i < legalCells.length; i++) {
 			for (int j = 0; j < legalCells[i].length; j++) {
+				// Display the possible moves of the piece with a marker
 				if (legalCells[i][j] == true) {
 					tiles[i][j].setIcon(MARKED_ICON);
 				} else {
@@ -104,39 +114,40 @@ public class BoardGUI {
 				}
 			}
 		}
-
-		if (b.getState() == Board.State.CLICKED_STATE) {
-			tiles[clickedX][clickedY].setIcon(OUTLINE_ICON);
-		} else {
-			tiles[clickedX][clickedY].setIcon(EMPTY_ICON);
-		}
-
+		// Outline the piece that the user has selected
+				if (b.getState() == Board.State.CLICKED_STATE) {
+					tiles[clickedX][clickedY].setIcon(CLICKED_ICON);
+				} else {
+					tiles[clickedX][clickedY].setIcon(EMPTY_ICON);
+				}
 	}// End of updating the GUI
 
-	// Mouse logic
+	// Mouse logic class
 	private class MyMouseListener implements MouseListener {
+		/* METHODS CONT. */
 		@Override
 		public void mouseClicked(MouseEvent arg0) {
+			// Save the coordinates of where the user has clicked
 			clickedX = arg0.getY() / 64;
 			clickedY = arg0.getX() / 64;
 			game.updateBoard(clickedX, clickedY);
-		}
+		}// End of mouseClicked()
 
 		@Override
 		public void mouseEntered(MouseEvent arg0) {
-		}
+		}// End of mouseEntered()
 
 		@Override
 		public void mouseExited(MouseEvent arg0) {
-		}
+		}// End of mouseExited()
 
 		@Override
 		public void mousePressed(MouseEvent arg0) {
-		}
+		}// End of mousePressed()
 
 		@Override
 		public void mouseReleased(MouseEvent arg0) {
-		}
+		}// End of mouseReleased
 
 	}// End of MyMouseListener()
 }// End of BoardGUI class
