@@ -1,4 +1,3 @@
-
 /** 
  *  The BoardGUI class handles and process the interaction between the game and the user.  This class select and sets images on the board.
  *	@author Zacoist
@@ -17,6 +16,7 @@ import javax.swing.JPanel;
 public class BoardGUI {
 	// Instantiate board images
 	final String BOARD_IMAGE = "src/Chess/chessboard.png";
+	final String GRAVEYARD_IMAGE = "src/Chess/chessboard.png";
 	final ImageIcon MARKED_ICON = new ImageIcon("src/Chess/marked.png");
 	final ImageIcon OUTLINE_ICON = new ImageIcon("src/Chess/outline.png");
 	final ImageIcon CLICKED_ICON = new ImageIcon("src/Chess/clicked.png");
@@ -28,6 +28,8 @@ public class BoardGUI {
 	// Initialize boardPanel and board
 	JPanel boardPanel;
 	JLabel board;
+	JLabel whiteGraveYard;
+	JLabel blackGraveYard;
 
 	// Instantiate 2D array of cells (for pieces icon) & tiles (for outline and
 	// markers)
@@ -50,9 +52,13 @@ public class BoardGUI {
 		boardPanel.setPreferredSize(new Dimension(100, 100));
 		boardPanel.setLayout(null);
 
-		// Declare and instantiate board
+		// Declare and instantiate board & graveyard
 		board = new JLabel(new ImageIcon(BOARD_IMAGE));
 		board.setBounds(0, 0, 512, 512);
+		whiteGraveYard = new JLabel(new ImageIcon(GRAVEYARD_IMAGE));
+		whiteGraveYard.setBounds(540, 0, 512, 128);
+		blackGraveYard = new JLabel(new ImageIcon(GRAVEYARD_IMAGE));
+		blackGraveYard.setBounds(540, 386, 512, 128);
 
 		// 2D array of tiles (64) to add outline and markers
 		for (int i = 0; i < tiles.length; i++) {
@@ -77,6 +83,8 @@ public class BoardGUI {
 		// If the user clicks any where on the board, the coordinates are given
 		board.addMouseListener(new MyMouseListener());
 		boardPanel.add(board);
+		boardPanel.add(whiteGraveYard);
+		boardPanel.add(blackGraveYard);
 	}// End of BoardGUI constructor
 	/* END OF CONSTRUCTOR */
 
@@ -170,3 +178,4 @@ public class BoardGUI {
 	
 	
 }// End of BoardGUI class
+
