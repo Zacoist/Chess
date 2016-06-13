@@ -1,4 +1,3 @@
-
 /** 
  *  The ChessGame class runs the game. Properties and settings for all JPanels, JFrame, JLabels and JButtons are set here except for things in the Board panel.
  *	@author Zacoist
@@ -130,7 +129,7 @@ public class ChessGame {
 
 		btnStartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				frmChessGame.setBounds(450, 200, 1000, 540);
+				frmChessGame.setBounds(250, 200, 1058, 540);
 				switchPanel(panelTitleScreen, panelBoardGame);
 			}
 		});
@@ -221,3 +220,4 @@ public class ChessGame {
 	} // End of switchPanel()
 
 }// End of chess game class
+
