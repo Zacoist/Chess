@@ -8,16 +8,14 @@ public class Bishop extends Piece {
 	public Bishop(char colour, int x, int y) {
 		super(colour, x, y);
 	}
+	
+	public Bishop(Bishop b) {
+		super(b);
+	}
 
 	@Override
 	public String getName() {
 		return "Bishop";
-	}
-
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-
 	}
 
 	private void helper(ArrayList<Pair> moves, Piece p, Board b, int x, int y, int x_inc, int y_inc) {

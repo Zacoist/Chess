@@ -83,6 +83,7 @@ public class BoardGUI {
 	/* METHODS */
 	// Update the GUI on the board
 	public void update(Board b) {
+		
 		// 2D array of pieces on every cell
 		Piece[][] pieces = b.getBoard();
 		for (int i = 0; i < pieces.length; i++) {
@@ -100,7 +101,6 @@ public class BoardGUI {
 			}
 		}
 		
-		
 		// Boolean array to decide to whether or not to put a maker or a blank
 		// for the piece's possible move
 		boolean[][] legalCells = b.getLegalCells();
@@ -114,8 +114,24 @@ public class BoardGUI {
 				}
 			}
 		}
-		// Outline the piece that the user has selected
-				if (b.getState() == Board.State.CLICKED_STATE) {
+		
+		if (b.getGameState() == Board.State.CHECK_STATE) {
+			if ((b.getState() == Board.State.BLACK_TURN_STATE || b.getState() == Board.State.BLACK_CLICKED_STATE)) {
+				Pair kingCoord = b.findBlackKing();
+				tiles[kingCoord.x][kingCoord.y].setIcon(OUTLINE_ICON);
+			} else {
+				Pair kingCoord = b.findWhiteKing();
+				tiles[kingCoord.x][kingCoord.y].setIcon(OUTLINE_ICON);
+			}
+		} else {
+			Pair kingCoord = b.findBlackKing();
+			tiles[kingCoord.x][kingCoord.y].setIcon(EMPTY_ICON);
+			
+			kingCoord = b.findWhiteKing();
+			tiles[kingCoord.x][kingCoord.y].setIcon(EMPTY_ICON);
+		}
+				
+				if (b.getState() == Board.State.BLACK_CLICKED_STATE || b.getState() == Board.State.WHITE_CLICKED_STATE) {
 					tiles[clickedX][clickedY].setIcon(CLICKED_ICON);
 				} else {
 					tiles[clickedX][clickedY].setIcon(EMPTY_ICON);
@@ -130,6 +146,7 @@ public class BoardGUI {
 			// Save the coordinates of where the user has clicked
 			clickedX = arg0.getY() / 64;
 			clickedY = arg0.getX() / 64;
+			
 			game.updateBoard(clickedX, clickedY);
 		}// End of mouseClicked()
 
@@ -150,4 +167,6 @@ public class BoardGUI {
 		}// End of mouseReleased
 
 	}// End of MyMouseListener()
+	
+	
 }// End of BoardGUI class

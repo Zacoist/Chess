@@ -23,6 +23,11 @@ public abstract class Piece {
 		this.colour = colour;
 		this.coord = new Pair(x, y);
 	}
+	
+	public Piece(Piece p) {
+		this.colour = p.getColour();
+		this.coord = new Pair(p.getX(), p.getY());
+	}
 	/* END OF CONSTRUCTOR */
 
 	/* METHODS */
@@ -45,6 +50,15 @@ public abstract class Piece {
 	public int getY() {
 		return coord.y;
 	}// End of getY()
+	
+	public void setX(int x) {
+		coord.x = x;
+	}// End of getX()
+
+	// Returns the y-coordinate of a piece
+	public void setY(int y) {
+		coord.x = y;
+	}// End of getY()
 
 	// Moves the piece to a new x and y coordinate
 	public void moveTo(int x, int y) {
@@ -65,7 +79,4 @@ public abstract class Piece {
 	// Every class that inherits piece must have a set of possible moves
 	// relative to where they are on the board
 	public abstract ArrayList<Pair> getLegalMoves(Piece p, Board b);
-
-	// Every piece must move
-	public abstract void move();
 }// End of piece class

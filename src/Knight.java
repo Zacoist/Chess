@@ -9,6 +9,10 @@ public class Knight extends Piece {
 	public Knight(char colour, int x, int y) {
 		super(colour, x, y);
 	}
+	
+	public Knight(Knight k) {
+		super(k);
+	}
 	//End of constructor
 	
 	//METHODS
@@ -16,12 +20,6 @@ public class Knight extends Piece {
 	//Returns name of piece
 	public String getName() {
 		return "Knight";
-	}
-
-	@Override
-	public void move() {
-		// TODO Auto-generated method stub
-
 	}
 	
 	@Override
