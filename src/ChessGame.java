@@ -205,11 +205,7 @@ public class ChessGame {
 
 		btnStartButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-<<<<<<< HEAD
 				frmChessGame.setBounds(250, 200, 518, 540);
-=======
-				
->>>>>>> 1d4507cb58a8085e9862eaff3c475bfe43dbe87b
 				switchPanel(panelTitleScreen, panelBoardGame);
 			}
 		});
@@ -290,17 +286,17 @@ public class ChessGame {
 		lblTitle2.setBounds(350, 100, 300, 50);
 		panelInstructions.add(lblTitle2);
 
-		JLabel lbltip1 = new JLabel("• Objective: \"Checkmate\" the opposing king");
+		JLabel lbltip1 = new JLabel("Â• Objective: \"Checkmate\" the opposing king");
 		lbltip1.setFont(new Font("Centaur", Font.PLAIN, 14));
 		lbltip1.setBounds(350, 140, 700, 50);
 		panelInstructions.add(lbltip1);
 
-		JLabel lbltip3 = new JLabel("• White moves first. Proceed by alternating turns.");
+		JLabel lbltip3 = new JLabel("Â• White moves first. Proceed by alternating turns.");
 		lbltip3.setFont(new Font("Centaur", Font.PLAIN, 14));
 		lbltip3.setBounds(350, 160, 700, 50);
 		panelInstructions.add(lbltip3);
 
-		JLabel lbltip4 = new JLabel("• A chessboard is an 8x8 grid. A naming convention is employed ");
+		JLabel lbltip4 = new JLabel("Â• A chessboard is an 8x8 grid. A naming convention is employed ");
 		lbltip4.setFont(new Font("Centaur", Font.PLAIN, 14));
 		lbltip4.setBounds(350, 180, 700, 50);
 		panelInstructions.add(lbltip4);
@@ -320,7 +316,7 @@ public class ChessGame {
 		lbltip7.setBounds(390, 225, 700, 50);
 		panelInstructions.add(lbltip7);
 
-		JLabel lbltip8 = new JLabel("• Each player begins the game with 16 pieces:");
+		JLabel lbltip8 = new JLabel("Â• Each player begins the game with 16 pieces:");
 		lbltip8.setFont(new Font("Centaur", Font.PLAIN, 14));
 		lbltip8.setBounds(350, 245, 700, 50);
 		panelInstructions.add(lbltip8);
