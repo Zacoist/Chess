@@ -1,4 +1,3 @@
-
 /** 
  *  The BoardGUI class handles and process the interaction between the game and the user.  This class select and sets images on the board.
  *	@author Zacoist
@@ -178,3 +177,4 @@ public class BoardGUI {
 	}// End of MyMouseListener()
 
 }// End of BoardGUI class
+
